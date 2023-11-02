@@ -4,6 +4,8 @@ filtered_logger.py
 Task 0: Regex-int
 """
 import re
+import os
+import mysql.connector
 import logging
 from typing import List
 
@@ -19,7 +21,7 @@ def filter_datum(
         ) -> str:
     """Task 0
     """
-    extract, replace = (patterns["extract"], patterns["replace"])
+    extract, replace = (patterns['extract'], patterns['replace'])
     return re.sub(extract(
         map(re.escape, fields), re.escape(separator)
         ), replace(redaction), message)
@@ -38,6 +40,24 @@ def get_logger() -> logging.Logger:
     logger.addHandler(stream_handler)
 
     return logger
+
+
+def get_db():
+    """Get Database
+    """
+    db_username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME")
+
+    connection = mysql.connector.connect(
+        user=db_username,
+        password=db_password,
+        host=db_host,
+        database=db_name
+    )
+
+    return connection
 
 
 class RedactingFormatter(logging.Formatter):
