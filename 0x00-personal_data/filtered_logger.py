@@ -15,6 +15,8 @@ patterns = {
 def filter_datum(
         fields: List[str], redaction: str, message: str, separator: str
         ) -> str:
+    """Task 0
+    """
     extract, replace = (patterns["extract"], patterns["replace"])
     return re.sub(extract(
         map(re.escape, fields), re.escape(separator)
