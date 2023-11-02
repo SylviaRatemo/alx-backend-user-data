@@ -61,6 +61,41 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     return connection
 
 
+def main():
+    # Set up logger
+    logger = logging.getLogger('user_data')
+    logger.setLevel(logging.INFO)
+    handler = logging.StreamHandler()
+    formatter = logging.Formatter('[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+    # Get database connection
+    db = get_db()
+
+    # Retrieve all rows in the users table
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM users")
+    rows = cursor.fetchall()
+
+    # Display each row under a filtered format
+    for row in rows:
+        filtered_data = {
+            'name': '***',
+            'email': '***',
+            'phone': '***',
+            'ssn': '***',
+            'password': '***',
+        }
+
+        # Log the filtered data
+        logger.info(f"{filtered_data}; ip={row['ip']}; last_login={row['last_login']}; user_agent={row['user_agent']}")
+
+    # Close database connection
+    cursor.close()
+    db.close()
+
+
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
     """
@@ -81,3 +116,7 @@ class RedactingFormatter(logging.Formatter):
         record.msg = filter_datum(
             self.fields, self.REDACTION, record.msg, self.SEPARATOR)
         return super(RedactingFormatter, self).format(record)
+
+
+if __name__ == "__main__":
+    main()
