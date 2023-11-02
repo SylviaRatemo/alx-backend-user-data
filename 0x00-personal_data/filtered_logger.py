@@ -32,7 +32,7 @@ class RedactingFormatter(logging.Formatter):
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
-    def __init__(self, fields):
+    def __init__(self, fields: List[str]):
         """Class constructor
         """
         super(RedactingFormatter, self).__init__(self.FORMAT)
@@ -41,7 +41,6 @@ class RedactingFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         """Format the log
         """
-        msg = super(RedactingFormatter, self).format(record)
-        txt = filter_datum(
+        record.msg = filter_datum(
             self.fields, self.REDACTION, record.msg, self.SEPARATOR)
-        return txt
+        return super(RedactingFormatter, self).format(record)
