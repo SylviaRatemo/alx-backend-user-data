@@ -31,3 +31,10 @@ def unauthorized_endpoint():
     """ GET /api/v1/unauthorized
     """
     abort(401)
+
+
+@app_views.route('/forbidden/', strict_slashes=False)
+def forbidden_endpoint():
+    """ GET /api/v1/unauthorized
+    """
+    abort(403)
