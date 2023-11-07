@@ -33,16 +33,16 @@ class Auth:
 
     def authorization_header(self, request=None) -> str:
         """
-        Dummy implementation for authorization_header.
-        Returns None for now.
-
+        implementation for authorization_header.
         Args:
             request: The Flask request object.
 
         Returns:
             str: Always returns None.
         """
-        return None
+        if request is None:
+            return None
+        return request.headers.get('Authorization')
 
     def current_user(self, request=None) -> TypeVar('User'):
         """
