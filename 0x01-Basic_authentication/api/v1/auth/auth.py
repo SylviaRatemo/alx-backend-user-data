@@ -13,7 +13,7 @@ class Auth:
 
         Args:
             path (str): The path to check for authentication.
-            excluded_paths (List[str]): List of paths to exclude from authentication.
+            excluded_paths (List[str]): List of paths to exclude
 
         Returns:
             bool: Always returns False.
