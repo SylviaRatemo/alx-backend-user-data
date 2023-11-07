@@ -7,6 +7,12 @@ from typing import List, TypeVar
 
 
 class Auth:
+    """
+     class to manage the API authentication.
+     methods: require_auth
+              authorization_header
+              current_user
+    """
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """
         Dummy implementation for require_auth.
