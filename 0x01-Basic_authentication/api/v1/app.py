@@ -18,8 +18,11 @@ if getenv('AUTH_TYPE') == "auth":
     from api.v1.auth.auth import Auth
     auth = Auth()
 
+
 @app.before_request
 def filter_request():
+    """Filter requests
+    """
     excluded_paths = [
         '/api/v1/status/',
         '/api/v1/unauthorized/',
