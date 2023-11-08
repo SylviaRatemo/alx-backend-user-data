@@ -4,7 +4,7 @@ class to perform basic authentication
 """
 from api.v1.auth.auth import Auth
 import base64
-from typing import TypeVar
+from typing import TypeVar, Optional
 from models.user import User
 
 
@@ -77,3 +77,26 @@ class BasicAuth(Auth):
             if user.is_valid_password(user_pwd):
                 return user
         return None
+    
+    def current_user(self, request=None) -> TypeVar('User'):
+        """Retrieve user instance
+        """
+        auth_header = self.authorization_header(request)
+        if auth_header is None:
+            return None
+        
+        base64_auth_header = self.extract_base64_authorization_header(auth_header)
+        if base64_auth_header is None:
+            return None
+        
+        decoded_auth_header = self.decode_base64_authorization_header(base64_auth_header)
+        if decoded_auth_header is None:
+            return None
+        
+        usr_email, usr_pwd = self.extract_user_credentials(decoded_auth_header)
+        if usr_email is None or usr_pwd is None:
+            return None
+        
+        user = self.user_object_from_credentials(usr_email, usr_pwd)
+
+        return user
