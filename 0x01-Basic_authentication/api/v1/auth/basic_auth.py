@@ -66,9 +66,9 @@ class BasicAuth(Auth):
             return None
 
         try:
-            user_list =  User.search({'email': user_email})
+            user_list = User.search({'email': user_email})
         except Exception:
-                return None
+            return None
 
         if not user_list:
             return None
