@@ -24,14 +24,13 @@ class Auth:
         Returns:
             bool: Always returns False.
         """
-        if not path or isinstance(path, str):
-            return False
-        if not excluded_paths or isinstance(excluded_paths, str):
+        if path is None:
             return True
-        for excluded_path in excluded_paths:
-            if fnmatch.fnmatch(path, excluded_path):
-                return False
-        return True
+        if excluded_paths is None or len(excluded_paths) < 1:
+            return True
+        path = path.rstrip('/') + '/'
+        excluded_paths = [p.rstrip('/') + '/' for p in excluded_paths]
+        return path not in excluded_paths
 
     def authorization_header(self, request=None) -> str:
         """
