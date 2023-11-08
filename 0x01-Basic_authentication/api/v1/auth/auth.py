@@ -24,9 +24,9 @@ class Auth:
         Returns:
             bool: Always returns False.
         """
-        if path is None:
-            return True
-        if excluded_paths is None or len(excluded_paths) < 1:
+        if not path or isinstance(path, str):
+            return False
+        if not excluded_paths or isinstance(excluded_paths, str):
             return True
         for excluded_path in excluded_paths:
             if fnmatch.fnmatch(path, excluded_path):
