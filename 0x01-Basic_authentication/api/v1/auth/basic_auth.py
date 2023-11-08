@@ -60,15 +60,20 @@ class BasicAuth(Auth):
             ) -> TypeVar('User'):
         """Check if user exists in database
         """
-        if user_email is None or not isinstance(user_email, str):
+        if not user_email or not isinstance(user_email, str):
             return None
-        if user_pwd is None or not isinstance(user_pwd, str):
+        if not user_pwd or not isinstance(user_pwd, str):
             return None
 
-        user_list =  User.search({'email': user_email})
+        try:
+            user_list =  User.search({'email': user_email})
+        except Exception:
+                return None
 
-        if user_list:
-            for user in user_list:
-                if user.is_valid_password(user_pwd):
-                    return user
+        if not user_list:
+            return None
+
+        for user in user_list:
+            if user.is_valid_password(user_pwd):
+                return user
         return None
