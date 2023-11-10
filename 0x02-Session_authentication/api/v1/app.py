@@ -28,7 +28,7 @@ if getenv('AUTH_TYPE') == "session_auth":
 
 
 @app.before_request
-def filter_request():
+def require_auth():
     """Filter requests
     """
     excluded_paths = [
